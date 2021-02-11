@@ -1,0 +1,170 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url "https://plugins.gradle.org/m2/" }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.0.187', changing: true
+        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.1.0'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
+apply plugin: 'com.matthewprenger.cursegradle'
+
+def ENV = System.getenv()
+version = "${minecraft_release}-${version_major}.${version_api_major}.${version_api_minor}.${version_patch}"
+archivesBaseName = "${artifact_basename}"
+group = "${artifact_group}.${artifact_basename}"
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+minecraft {
+    mappings channel: 'snapshot', version: "${mcp_mappings}"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            // properties 'mixin.env.disableRefMap': 'true'
+
+            mods {
+                exnihilomekanism {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                exnihilomekanism {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            // properties 'mixin.env.disableRefMap': 'true'
+            args '--mod', 'exnihilomekanism', '--all', '--output', file('generated/resources/'), '--existing', file('src/main/resources'), '--existing-mod', 'exnihilosequentia'
+
+            mods {
+                exnihilomekanism {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/main/resources' }
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    implementation fg.deobf("novamachina:exnihilosequentia:${minecraft_release}-${exnihilosequentia_version}")
+    implementation fg.deobf("curse.maven:thermalfoundation-${thermal_project}:${thermal_file}")
+    implementation fg.deobf("curse.maven:cofhcore-${cofh_core_project}:${cofh_core_file}")
+
+    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_release}.2:${jei_version}")
+    runtimeOnly fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_release}.2")
+}
+
+// Example for how to get properties into the manifest for reading by the runtime..
+jar {
+    manifest {
+        attributes([
+            "Specification-Title": "Ex Nihilo: Sequentia - Mekansim Addon",
+            "Specification-Vendor": "NovaMachina",
+            "Specification-Version": "1", // We are version 1 of ourselves
+            "Implementation-Title": project.name,
+            "Implementation-Version": "${version}",
+            "Implementation-Vendor" :"NovaMachina",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+// Example configuration to allow publishing using the maven-publish task
+// This is the preferred method to reobfuscate your jar file
+jar.finalizedBy('reobfJar') 
+// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
+//publish.dependsOn('reobfJar')
+
+repositories {
+    maven {
+        name = "Minecraft Forge"
+        url = "https://files.minecraftforge.net/maven"
+    }
+    maven { // JEI
+        name = "DVS1 Maven FS"
+        url = "https://dvs1.progwml6.com/files/maven"
+    }
+    maven { // WAILA
+        name = "Mobius Repo"
+        url = "https://maven.tehnut.info"
+    }
+    maven {
+        name "Modmaven"
+        url "https://modmaven.dev/"
+    }
+    maven {
+        url = "https://repo.jacob-williams.me/repository/maven-releases/"
+    }
+    maven {
+        url = "https://www.cursemaven.com"
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = "${artifact_group}"
+            artifactId = "${artifact_basename}"
+            version = "${version}"
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username = ENV.NEXUS_USERNAME
+                password = ENV.NEXUS_PASSWORD
+            }
+            url = "https://repo.jacob-williams.me/repository/maven-releases/"
+        }
+    }
+}
+
+if(ENV.CURSEFORGE_KEY) {
+    curseforge {
+        apiKey = ENV.CURSEFORGE_KEY
+
+        project {
+            id = "${curseforge_project}"
+            releaseType = 'release'
+            mainArtifact jar
+            addGameVersion '1.16'
+            addGameVersion '1.16.1'
+            addGameVersion '1.16.2'
+            addGameVersion '1.16.3'
+            addGameVersion '1.16.4'
+            addGameVersion '1.16.5'
+            changelog = file('changelog.md')
+            changelogType = 'markdown'
+        }
+    }
+}
