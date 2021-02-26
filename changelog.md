@@ -1,2 +1,2 @@
 1.0.0.0
-- Add osmium ore and recipes
+- Add Thermal dolls, obsidian dust, and recipes
