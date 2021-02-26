@@ -36,7 +36,7 @@ minecraft {
             // properties 'mixin.env.disableRefMap': 'true'
 
             mods {
-                exnihilomekanism {
+                exnihilothermal{
                     source sourceSets.main
                 }
             }
@@ -48,7 +48,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                exnihilomekanism {
+                exnihilothermal {
                     source sourceSets.main
                 }
             }
@@ -59,10 +59,10 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
             // properties 'mixin.env.disableRefMap': 'true'
-            args '--mod', 'exnihilomekanism', '--all', '--output', file('generated/resources/'), '--existing', file('src/main/resources'), '--existing-mod', 'exnihilosequentia'
+            args '--mod', 'exnihilothermal', '--all', '--output', file('generated/resources/'), '--existing', file('src/main/resources'), '--existing-mod', 'exnihilosequentia'
 
             mods {
-                exnihilomekanism {
+                exnihilothermal {
                     source sourceSets.main
                 }
             }
@@ -87,7 +87,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "Ex Nihilo: Sequentia - Mekansim Addon",
+            "Specification-Title": "Ex Nihilo: Sequentia - Thermal Addon",
             "Specification-Vendor": "NovaMachina",
             "Specification-Version": "1", // We are version 1 of ourselves
             "Implementation-Title": project.name,
