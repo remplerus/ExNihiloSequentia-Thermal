@@ -7,8 +7,6 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import novamachina.exnihilosequentia.common.item.ore.EnumOre;
 import novamachina.exnihilosequentia.common.utility.Config;
 import novamachina.exnihilosequentia.common.utility.ExNihiloLogger;
-import novamachina.exnihilothermal.ExNihiloThermal;
-import novamachina.exnihilothermal.common.utility.ExNihiloThermalConfig;
 import novamachina.exnihilothermal.common.utility.ExNihiloThermalConstants;
 import org.apache.logging.log4j.LogManager;
 
@@ -41,6 +39,10 @@ public class ExNihiloThermalInitialization {
     }
 
     private static void enableOres() {
-
+        EnumOre.COPPER.setEnabled(true);
+        EnumOre.SILVER.setEnabled(true);
+        EnumOre.TIN.setEnabled(true);
+        EnumOre.LEAD.setEnabled(true);
+        EnumOre.NICKEL.setEnabled(true);
     }
 }

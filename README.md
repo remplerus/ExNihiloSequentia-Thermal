@@ -6,8 +6,8 @@
     <a href="https://github.com/NovaMachina-Mods/ExNihiloSequentia-Thermal/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/NovaMachina-Mods/ExNihiloSequentia-Thermal"></a>
 </p>
 
-# Ex Nihilo: Sequentia - Thermal Expansion Addon
-An addon for Ex Nihilo: Sequenita that adds support for Thermal Expansion. Adds necessary blocks, items and recipes for compatibility. 
+# Ex Nihilo: Sequentia - Thermal Addon
+An addon for Ex Nihilo: Sequenita that adds support for the Thermal Mods. Adds necessary blocks, items and recipes for compatibility. 
 
 # License
 Ex Nihilo: Sequentia is licensed under the MIT license (see the license file)
