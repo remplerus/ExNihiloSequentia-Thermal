@@ -1,0 +1,10 @@
+{
+  "item.exnihilosequentia.doll_basalz": "Zerstoßungspuppe",
+  "item.exnihilosequentia.doll_blitz": "Brisenpuppe",
+  "item.exnihilosequentia.doll_blizz": "Frostpuppe",
+  "item.exnihilosequentia.dust_obsidian": "Obsidianstaub",
+
+  "tooltip.doll.basalz": "Füge zu einem Lavafass hinzu, um einen Basalz zu erschaffen",
+  "tooltip.doll.blitz": "Füge zu einem Lavafass hinzu, um einen Blitz (Mob) zu erschaffen",
+  "tooltip.doll.blizz": "Füge zu einem Lavafass hinzu, um einen Blizz zu erschaffen"
+}
