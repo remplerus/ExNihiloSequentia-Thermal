@@ -14,7 +14,7 @@ public class ExNihiloThermalTagGenerator extends AbstractItemTagGenerator {
     }
 
     @Override
-    protected void registerTags() {
-        getOrCreateBuilder(ExNihiloThermalTags.DUST_OBSIDIAN).addItemEntry(ExNihiloThermal.dust_obsidian.getRegistryObject().get());
+    protected void addTags() {
+        tag(ExNihiloThermalTags.DUST_OBSIDIAN).add(ExNihiloThermal.dust_obsidian.getRegistryObject().get());
     }
 }
